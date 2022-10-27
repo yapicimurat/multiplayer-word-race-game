@@ -1,0 +1,102 @@
+*{
+    padding: 0px;
+    margin: 0px;
+
+    box-sizing: border-box;
+    font-family: 'Courier New', Courier, monospace;
+}
+
+
+header{
+    width: 100%;
+    height: 100px;
+
+    border-bottom: 1px solid #888;
+    padding-top: 30px;
+    text-align: center;
+}
+
+header small{
+    display: block;
+}
+
+section{
+    width: 100%;
+
+    height: 600px;
+    border: 1px solid #888;
+
+    display: flex;
+    flex-direction: column;
+
+    align-items: center;
+    
+}
+
+section #user{
+    width: 800px;
+    height: 70px;
+
+    border: 1px solid #888;
+    text-align: center;
+}
+
+section #user form{
+
+}
+
+
+section #room-list{
+    width: 800px;
+    height: 530px;
+    border: 1px solid #888;
+
+    text-align: center;
+    position: relative;
+}
+
+section #room-list ul{
+    list-style: none;
+    border-top: 1px solid #888;
+    padding: 5px 5px;
+}
+
+section #room-list ul li{
+    position: relative;
+    padding: 10px;
+
+    border-bottom: 1px dashed #e3e3e3;
+}
+
+section #room-list ul li:hover{
+    background-color: #e3e3e3;
+}
+
+section #room-list #createRoom{
+    position: absolute;
+    width: 75px;
+    height: 75px;
+    right: 0px;
+    top: calc(600px - 150px);
+}
+
+
+section #room-list ul li:hover .join-button{
+    display: block;
+}
+
+.join-button{
+    height: 30px;
+    width: 50px;
+    display: none;
+    position: absolute;
+    right: 20px;
+    top: 3px;
+    cursor: pointer;
+}
+
+
+
+
+
+

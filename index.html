@@ -1,0 +1,43 @@
+<html>
+    <head>
+        <title>ONLINE WORD RACE GAME</title>
+        <meta charset="UTF-8"> 
+
+        <link rel="stylesheet" href="./public/css/index.css">
+    </head>
+
+    <body>
+       <header>
+            <h2>MULTIPLAYER WORD RACE GAME</h2>
+            <small>Complete words faster than others and win the game!!!</small>
+       </header>
+
+       <section>
+            <div id="user">
+                <p>Enter your nickname to play game...</p>
+                <form id="userForm" action="#">
+                    <label for="nickname">Nickname</label>
+                    <input type="text" id="nickname">
+                    <button type="submit">Submit</button>
+                </form>
+            </div>
+            <div id="room-list">
+                <p>ROOM LIST</p>
+                <small>Room list is automatically refreshed.</small>
+                <ul>
+                    <li>ROOM#1 <span>5/10</span> <button class="join-button">Join</button></li>
+                    <li>ROOM#2 <span>2/10</span> <button class="join-button">Join</button></li>
+                    <li>ROOM#3 <span>5/10</span> <button class="join-button">Join</button></li>
+                    <li>ROOM#4 <span>7/10</span> <button class="join-button">Join</button></li>
+                </ul>
+
+                <button id="createRoom">Create Room</button>
+            </div>
+
+       </section>
+
+       <footer>
+
+       </footer>
+    </body>
+</html>
