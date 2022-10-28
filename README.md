@@ -4,4 +4,4 @@ I'll be started to coding when I finished planning.
 
 #### Screenshot from planning
 Note: This plan is not completed.
-![Planning](online-word-race-game.drawio.png)
+![Planning](planning.png)
