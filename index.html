@@ -1,7 +1,7 @@
 <html>
     <head>
         <title>ONLINE WORD RACE GAME</title>
-        <meta charset="UTF-8"> 
+        <meta charset="UTF-8">
 
         <link rel="stylesheet" href="./public/css/index.css">
     </head>
@@ -14,24 +14,29 @@
 
        <section>
             <div id="user">
-                <p>Enter your nickname to play game...</p>
-                <form id="userForm" action="#">
+                <form id="userForm">
+                    <p>Enter your nickname to play game...</p>
                     <label for="nickname">Nickname</label>
-                    <input type="text" id="nickname">
+                    <input type="text" id="nickname" disabled required>
                     <button type="submit">Submit</button>
                 </form>
+                <small id="server-state">State: Connecting...</small>
             </div>
-            <div id="room-list">
+            <div id="room-list" style="position: relative;">
                 <p>ROOM LIST</p>
                 <small>Room list is automatically refreshed.</small>
-                <ul>
-                    <li>ROOM#1 <span>5/10</span> <button class="join-button">Join</button></li>
-                    <li>ROOM#2 <span>2/10</span> <button class="join-button">Join</button></li>
-                    <li>ROOM#3 <span>5/10</span> <button class="join-button">Join</button></li>
-                    <li>ROOM#4 <span>7/10</span> <button class="join-button">Join</button></li>
-                </ul>
-
-                <button id="createRoom">Create Room</button>
+                <ul id="rooms"></ul>
+                <div id="createRoomArea" style="display: none; position: absolute; width: 100%; height: 100%; top: 0px; z-index: 20; background-color: #fff;">
+                    <p>Fill room informations...</p>
+                    <form id="roomForm" style="margin-top: 10px;">
+                        <label for="roomName">Room Name</label><br>
+                        <input style="width: 200px;" type="text" id="roomName" required /><br>
+                        <label for="roomCapacity">Room Capacity</label><br>
+                        <input style="width: 200px;" type="number" min="2" max="10" id="roomCapacity" required /><br>
+                        <button style="width: 100px; height: 50px; margin-top: 10px;" type="submit">Create Room</button>
+                    </form>
+                </div>
+                <button id="createRoom">New Room</button>
             </div>
 
        </section>
@@ -39,5 +44,121 @@
        <footer>
 
        </footer>
+
+       <script type="module">
+            import socket from "./public/js/socket.js";
+            import EVENTS from "./public/js/constants.js";
+
+            const userForm = document.getElementById("userForm");
+            const nicknameInput = document.getElementById("nickname");
+
+            const createRoomArea = document.getElementById("createRoomArea");
+            const roomForm = document.getElementById("roomForm");
+            const roomNameInput = document.getElementById("roomName");
+            const roomCapacityInput = document.getElementById("roomCapacity");
+
+            const serverState = document.getElementById("server-state");
+            const roomsElement = document.getElementById("rooms");
+            const createRoomButton = document.getElementById("createRoom");
+
+            let nickname = "";
+            let roomName = "";
+            let roomCapacity = -1;
+            const roomList = [];
+
+            const renderRoomList = () => {
+
+                roomsElement.innerHTML = "<p>No any room...</p>";
+
+                roomList.forEach(room => {
+                   roomsElement.append(`<li>${room.name} <span>${room.game.length}/${room.capacity}</span> <button class="join-button">Join</button></li>`);
+                });
+
+            };
+
+            userForm.addEventListener("submit", (e) => {
+               e.preventDefault();
+
+               if( nicknameInput === null || nicknameInput.value.trim() === "" || !socket.connected) return;
+
+               nickname = nicknameInput.value.trim();
+               //send to server to check nickname
+               socket.emit(EVENTS.EMIT_EVENTS.CREATE_NICKNAME, nicknameInput.value);
+
+            });
+
+            //special 'connected' event
+            window.addEventListener("connected", () => {
+
+               nicknameInput.removeAttribute("disabled");
+               serverState.innerText = "State: Connected.";
+
+               socket.emit(EVENTS.EMIT_EVENTS.GET_ROOM_INFORMATIONS);
+
+               //SOCKET ON EVENTS
+               socket.on(EVENTS.ON_EVENTS.CLIENT_ROOM_INFORMATIONS, (roomList) => {
+                   roomList = roomList;
+                   renderRoomList();
+                  console.log(roomList);
+               });
+
+               //ANSWER FOR CREATE NICKNAME
+               socket.on(EVENTS.ON_EVENTS.CREATE_NICKNAME, (isAlreadyExist) => {
+                  if(isAlreadyExist) alert("Nickname is already exist.");
+                  else{
+                      userForm.innerHTML = `<p style="font-size: 20px;">Hello! Welcome to Game ${nickname}</p><br>
+                                            You can create a room or join...`;
+                  }
+               });
+
+               //ANSWER FOR CREATE ROOM
+                socket.on(EVENTS.ON_EVENTS.CREATE_ROOM, (data) => {
+                    //data contains
+                    /*
+
+                    */
+                    if(data?.isAlreadyExist === true){
+                        alert("Room name already created.");
+                    }else{
+                        //TODO: Room is created and do whatever you should...
+                    }
+
+
+                });
+
+            });
+
+            createRoomButton.addEventListener("click", () => {
+                if(socket === null || !socket) return;
+
+                if(nickname === "" || nickname === null || !nickname){
+                    alert("You should enter your nickname to be able to create a game.");
+                }else{
+                    createRoomArea.style.display = "block";
+
+                }
+
+            });
+
+
+            roomForm.addEventListener("submit", (e) => {
+               e.preventDefault();
+
+                if(roomNameInput === null || roomNameInput.value.trim() === "" || !socket.connected) return;
+                if(roomCapacityInput === null || roomCapacityInput.value.trim() === "") return;
+
+                roomCapacity = parseInt(roomCapacityInput.value);
+
+                if(roomCapacity <= 2 ||roomCapacity >= 10) roomCapacity = 10;
+
+                socket.emit(EVENTS.EMIT_EVENTS.CREATE_ROOM, {
+                    socketId: socket.id,
+                    roomName: roomName,
+                    roomCapacity: roomCapacity
+                });
+            });
+
+       </script>
+
     </body>
 </html>

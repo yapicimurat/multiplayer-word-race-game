@@ -1,5 +1,6 @@
 {
   "name": "multiplayer-word-race-game",
+  "type": "module",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -16,5 +17,11 @@
   "bugs": {
     "url": "https://github.com/yapicimurat/multiplayer-word-race-game/issues"
   },
-  "homepage": "https://github.com/yapicimurat/multiplayer-word-race-game#readme"
+  "homepage": "https://github.com/yapicimurat/multiplayer-word-race-game#readme",
+  "dependencies": {
+    "express": "^4.18.2",
+    "live-server": "^1.2.2",
+    "socket.io": "^4.5.3",
+    "socket.io-client": "^4.5.3"
+  }
 }

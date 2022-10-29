@@ -30,7 +30,7 @@ section{
     flex-direction: column;
 
     align-items: center;
-    
+
 }
 
 section #user{
@@ -39,6 +39,8 @@ section #user{
 
     border: 1px solid #888;
     text-align: center;
+
+    position: relative;
 }
 
 section #user form{
@@ -95,6 +97,12 @@ section #room-list ul li:hover .join-button{
     cursor: pointer;
 }
 
+
+#server-state{
+    position: absolute;
+    right: 0px;
+    bottom: 5px;
+}
 
 
 
