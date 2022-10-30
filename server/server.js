@@ -84,13 +84,12 @@ const asyncGetPlayerBySocketId = (socketId) => {
 io.on("connection", (socket) => {
     console.log(`${socket.id} socket connected the server.`);
 
-
     //EMIT ROOMLIST WHEN INCOME REQUEST FOR ROOMLIST
     socket.on(ON_EVENTS.GET_ROOM_INFORMATIONS, () => {
        socket.emit(EMIT_EVENTS.CLIENT_ROOM_INFORMATIONS, roomList);
     });
 
-
+    //REQUEST FOR CREATE NICKNAME
     socket.on(ON_EVENTS.CREATE_NICKNAME, async (nickname) =>  {
         asyncCheckNickNameIsExist(nickname)
         .then(result => {
@@ -104,6 +103,7 @@ io.on("connection", (socket) => {
 
     });
 
+    //REQUEST FOR CREATE ROOM
     socket.on(ON_EVENTS.CREATE_ROOM, async (data) => {
         /*
             socketId: socket.id,
@@ -148,6 +148,7 @@ io.on("connection", (socket) => {
         socket.broadcast.emit(EMIT_EVENTS.CLIENT_ROOM_INFORMATIONS, roomList);
 
     });
+
 
     socket.on("disconnect", () => {
         console.log(`${socket.id} socket disconnected the server.`);

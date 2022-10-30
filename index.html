@@ -7,12 +7,13 @@
     </head>
 
     <body>
-       <header>
+        <!-- INDEX PAGE -->
+       <header class="default">
             <h2>MULTIPLAYER WORD RACE GAME</h2>
             <small>Complete words faster than others and win the game!!!</small>
        </header>
 
-       <section>
+       <section class="default">
             <div id="user">
                 <form id="userForm">
                     <p>Enter your nickname to play game...</p>
@@ -41,13 +42,41 @@
 
        </section>
 
-       <footer>
-
+       <footer class="default">
+            ßy https://github.com/yapicimurat/
        </footer>
+        <!-- END INDEX PAGE -->
+
+        <!-- GAME PAGE -->
+        <header class="game">
+            <h2>MULTIPLAYER WORD RACE GAME</h2>
+            <small>Complete words faster than others and win the game!!!</small>
+            <small>Game screen 800x600</small>
+        </header>
+
+        <section class="game">
+            <div id="game"></div>
+        </section>
+        <footer class="game">
+            <small>Test</small>
+        </footer>
+
+        <script type="module" src="./public/js/game.js"></script>
+
+
+        <!-- END GAME PAGE -->
+
 
        <script type="module">
             import socket from "./public/js/socket.js";
             import EVENTS from "./public/js/constants.js";
+
+            const defaultElements = document.querySelectorAll(".default");
+            const gameElements = document.querySelectorAll(".game");
+
+            //init
+            defaultElements.forEach(defaultElement => defaultElement.style.visibility = "visible");
+            gameElements.forEach(gameElements => gameElements.style.display = "none");
 
             const userForm = document.getElementById("userForm");
             const nicknameInput = document.getElementById("nickname");
@@ -126,7 +155,13 @@
                         alert(errorMessage);
                     }else{
                         //TODO: Room is created and do whatever you should...
+                        //route game page without refreshing...
 
+                        defaultElements.forEach(element => {
+                            element.style.display = "none"
+                        });
+
+                        gameElements.forEach(element => element.style.display = "block");
                     }
 
 
@@ -141,7 +176,7 @@
                     alert("You should enter your nickname to be able to create a game.");
                 }else{
                     createRoomArea.style.display = "block";
-
+                    console.log(window.history);
                 }
 
             });
@@ -169,4 +204,6 @@
        </script>
 
     </body>
+
+
 </html>
