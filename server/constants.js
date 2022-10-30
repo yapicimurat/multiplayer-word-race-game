@@ -3,7 +3,6 @@ export const GAME_MODE = {
     LANGUAGE: 2
 }
 
-
 export const PORT = 3000;
 
 export const EMIT_EVENTS = {

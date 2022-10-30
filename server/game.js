@@ -4,8 +4,6 @@ export default class Game{
 
     constructor(key){
         this.key = key;
-
-        this.room = null;
         this.wordList = [];
         this.isStarted = false;
         this.gameMode = GAME_MODE.CLASSIC;

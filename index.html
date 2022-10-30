@@ -64,14 +64,15 @@
             let nickname = "";
             let roomName = "";
             let roomCapacity = -1;
-            const roomList = [];
+            let roomList = [];
 
             const renderRoomList = () => {
-
-                roomsElement.innerHTML = "<p>No any room...</p>";
+                roomsElement.innerHTML = "";
+                if(roomList.length === 0) roomsElement.innerHTML = "<p>No any room...</p>";
 
                 roomList.forEach(room => {
-                   roomsElement.append(`<li>${room.name} <span>${room.game.length}/${room.capacity}</span> <button class="join-button">Join</button></li>`);
+                    console.log(room);
+                    roomsElement.innerHTML += `<li class="room-item">Player: ${room.creatorPlayer?.nickName}, Room Name: ${room.name}, Capacity: ${room.users?.length}/${room.capacity}, Date: ${new Date(room.createdAt).toLocaleTimeString()} <button class="join-button">Join</button></li>`;
                 });
 
             };
@@ -96,10 +97,10 @@
                socket.emit(EVENTS.EMIT_EVENTS.GET_ROOM_INFORMATIONS);
 
                //SOCKET ON EVENTS
-               socket.on(EVENTS.ON_EVENTS.CLIENT_ROOM_INFORMATIONS, (roomList) => {
-                   roomList = roomList;
+               socket.on(EVENTS.ON_EVENTS.CLIENT_ROOM_INFORMATIONS, (updatedRoomList) => {
+                   roomList = updatedRoomList;
+
                    renderRoomList();
-                  console.log(roomList);
                });
 
                //ANSWER FOR CREATE NICKNAME
@@ -115,12 +116,17 @@
                 socket.on(EVENTS.ON_EVENTS.CREATE_ROOM, (data) => {
                     //data contains
                     /*
-
+                        isSuccessfully,
+                        errorMessage
                     */
-                    if(data?.isAlreadyExist === true){
-                        alert("Room name already created.");
+                    const {isSuccessfully, errorMessage} = data;
+                    console.log(isSuccessfully, errorMessage);
+
+                    if(isSuccessfully === false){
+                        alert(errorMessage);
                     }else{
                         //TODO: Room is created and do whatever you should...
+
                     }
 
 
@@ -150,6 +156,8 @@
                 roomCapacity = parseInt(roomCapacityInput.value);
 
                 if(roomCapacity <= 2 ||roomCapacity >= 10) roomCapacity = 10;
+
+                roomName = roomNameInput.value.trim();
 
                 socket.emit(EVENTS.EMIT_EVENTS.CREATE_ROOM, {
                     socketId: socket.id,

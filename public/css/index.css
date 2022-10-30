@@ -68,6 +68,7 @@ section #room-list ul li{
     padding: 10px;
 
     border-bottom: 1px dashed #e3e3e3;
+    text-align: left;
 }
 
 section #room-list ul li:hover{
