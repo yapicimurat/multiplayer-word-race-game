@@ -62,7 +62,6 @@ try{
     console.error(err);
 }
 
-
 const asyncCheckNickNameIsExist = (nickname) => {
     return Promise.resolve(playerList.filter(player => player.nickName === nickname).length > 0);
 };

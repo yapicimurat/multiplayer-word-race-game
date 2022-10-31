@@ -6,20 +6,24 @@ export default function RoomList(){
     const roomList = useSelector(state => state.roomReducer.roomList);
 
 
-    roomList.map((room, index) => {
+
+
+    const roomListComponents = roomList.map((room, index) => {
+        console.log(room);
         return <RoomItem
             key={index}
-            creatorNickName={room.creatorNickName}
+            creatorNickName={room.creatorPlayer.nickName}
             name={room.name}
             capacity={room.capacity}
-            date={room.date}
+            date={room.createdAt}
         />
     });
 
 
+
     return (
         <ul className="roomList">
-            {(Array.isArray(roomList) && roomList.length > 0) ? roomList : "No any room..."}
+            {(Array.isArray(roomList) && roomList.length > 0) ? roomListComponents : "No any room..."}
         </ul>
     );
 

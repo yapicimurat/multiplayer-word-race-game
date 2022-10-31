@@ -1,13 +1,15 @@
 import {useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {SOCKET} from "../config";
+import {setCreateRoomForm} from "../features/general/generalSlice.js";
 
 export default function CreateNickName(){
+
+    const dispatch = useDispatch();
 
     //get nickname
     const nickNameGlobal = useSelector(state => state.playerReducer.nickName);
     const socket = useSelector(state => state.playerReducer.socket);
-
 
     const [nickName, setNickName] = useState("");
 
@@ -21,9 +23,11 @@ export default function CreateNickName(){
         if(nickName === "" && socket?.connected) return;
 
         socket.emit(SOCKET.EMIT_EVENTS.CREATE_NICKNAME, nickName);
-
-
     }
+
+    const createRoomFormOpenEvent = () => {
+        dispatch(setCreateRoomForm(true));
+    };
 
     const createNickNameForm = (
         <form className="createNickname" onSubmit={formSubmitEvent}>
@@ -34,8 +38,11 @@ export default function CreateNickName(){
         </form>
     );
 
+
     const createdNickNameScreen = (
-        <p>Hello, {nickNameGlobal}</p>
+        <>
+            <p>Hello, {nickNameGlobal} <span><button type="button" onClick={createRoomFormOpenEvent}>Create Room</button></span></p>
+        </>
     );
 
     if(nickNameGlobal === ""){

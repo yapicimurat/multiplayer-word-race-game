@@ -1,7 +1,7 @@
 import { configureStore } from "@reduxjs/toolkit";
 import playerReducer from "../features/player/playerSlice.js";
 import roomReducer from "../features/room/roomSlice.js";
-
+import generalReducer from "../features/general/generalSlice.js";
 
 export const store = configureStore({
    middleware: (getDefaultMiddleware) => {
@@ -11,6 +11,7 @@ export const store = configureStore({
    },
    reducer: {
       playerReducer,
-      roomReducer
+      roomReducer,
+      generalReducer
    }
 });
