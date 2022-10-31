@@ -95,10 +95,12 @@ io.on("connection", (socket) => {
         .then(result => {
             if(!result) playerList.push(new Player(socket.id, nickname));
 
-            socket.emit(EMIT_EVENTS.CREATE_NICKNAME, result);
+
+
+            socket.emit(EMIT_EVENTS.CREATE_NICKNAME, {result: result, nickName: nickname});
         })
         .catch(err => {
-            socket.emit(EMIT_EVENTS.CREATE_NICKNAME, true);
+            socket.emit(EMIT_EVENTS.CREATE_NICKNAME, {result: true, nickName: nickname});
         });
 
     });

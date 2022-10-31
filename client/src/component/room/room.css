@@ -1,0 +1,52 @@
+ul.roomList{
+    width: 100%;
+    height: 100%;
+    list-style: none;
+}
+
+ul.roomList li{
+    width: 100%;
+    height: 50px;
+    border-bottom: 1px solid #efefef;
+    padding: 15px;
+    position: relative;
+}
+
+ul.roomList li .joinRoom{
+    visibility: hidden;
+    position: absolute;
+    width: 40px;
+    height: 20px;
+    right: 15px;
+
+    cursor: pointer;
+}
+
+ul.roomList li:hover{
+    background-color: #efefef;
+}
+
+ul.roomList li:hover .joinRoom{
+    visibility: visible;
+}
+
+p{
+    font-size: 18px;
+    text-align: center;
+}
+
+form.createRoom{
+    width: 500px;
+    height: 500px;
+    margin: 0px auto;
+    margin-top: 30px!important;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+form.createRoom button{
+    width: 100px;
+    height: 30px;
+
+}
