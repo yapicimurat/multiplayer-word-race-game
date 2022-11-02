@@ -1,4 +1,4 @@
-
+import "./game.css";
 
 
 export default function GameScreen(){

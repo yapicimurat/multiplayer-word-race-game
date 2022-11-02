@@ -27,10 +27,16 @@ export const playerSlice = createSlice({
             //action.payload has, "isInGame", "room"
             state.isInGame = action.payload.isInGame;
             state.room = action.payload.room;
+
         },
+        setRoom: (state, action) => {
+            console.log(action.payload);
+            console.log("FROM STORE => " + action.payload?.creatorPlayer?.nickName);
+            state.room = action.payload;
+        }
 
     },
 });
 
-export const {setSocket, setNickName, setIsInGame} = playerSlice.actions;
+export const {setSocket, setNickName, setIsInGame, setRoom} = playerSlice.actions;
 export default playerSlice.reducer;

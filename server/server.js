@@ -208,11 +208,10 @@ io.on("connection", (socket) => {
         });
     });
 
-
     socket.on("disconnect", () => {
         console.log(`${socket.id} socket disconnected the server.`);
-        eventEmitter.emit(EVENT_EMITTERS.FIND_USER_AND_DESTROY_DEPENDENCIES, socket.id);
 
+        eventEmitter.emit(EVENT_EMITTERS.FIND_USER_AND_DESTROY_DEPENDENCIES, socket.id);
     });
 
 });

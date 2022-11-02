@@ -10,18 +10,25 @@ import { io } from "socket.io-client";
 import "./style.css";
 import {useEffect} from "react";
 import {useDispatch, useSelector} from "react-redux";
-import {setNickName, setSocket, setIsInGame} from "../features/player/playerSlice.js";
+import {setNickName, setSocket, setIsInGame, setRoom} from "../features/player/playerSlice.js";
 import {setRoomList} from "../features/room/roomSlice.js";
 
 export default function Index(){
 
-    const isInGame = useSelector(state => state.playerReducer.isInGame);
-
+    const {isInGame, socket} = useSelector(state => state.playerReducer);
     const dispatch = useDispatch();
 
+
+    const connectSocket = () => {
+        if(socket === null)
+            return io(SOCKET.URL);
+        else
+            return socket;
+    }
+
     useEffect(() => {
-        //connect socket server and pass into the global state
-        const socket = io(SOCKET.URL);
+
+        const socket = connectSocket();
 
         socket.on(SOCKET.ON_EVENTS.CONNECT, () => {
             //connected...
@@ -33,9 +40,15 @@ export default function Index(){
         });
 
         socket.on(SOCKET.ON_EVENTS.CLIENT_ROOM_INFORMATIONS, (roomList) => {
-            console.log(roomList);
-            //set roomList global state
             dispatch(setRoomList({roomList}));
+            if(isInGame){
+                const room = roomList.filter(room => {
+                    return (room.users.filter(user => user.socketId === socket.id).length > 0)
+                });
+                if(room.length > 0){
+                    dispatch(setRoom(room[0]));
+                }
+            }
         });
 
         socket.on(SOCKET.ON_EVENTS.CREATE_NICKNAME, (data) => {
@@ -73,7 +86,7 @@ export default function Index(){
             }
         });
 
-    }, []);
+    }, [isInGame]);
 
     const CONTENTS = {
         START_SCREEN: <StartScreen/>,

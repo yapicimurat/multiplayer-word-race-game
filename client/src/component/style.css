@@ -24,6 +24,10 @@ header{
     /*position: relative for .serverState class*/
     position: relative;
 }
+header small{
+    display: block;
+    font-size: 18px;
+}
 
 section{
     min-width: 800px;
