@@ -19,7 +19,6 @@ export const playerSlice = createSlice({
     reducers: {
         setSocket: (state, action) => {
             state.socket = action.payload.socket;
-            console.log(action.payload.socket);
         },
         setNickName: (state, action) => {
             state.nickName = action.payload.nickName;
@@ -28,8 +27,6 @@ export const playerSlice = createSlice({
             //action.payload has, "isInGame", "room"
             state.isInGame = action.payload.isInGame;
             state.room = action.payload.room;
-
-            console.log(action.payload);
         },
 
     },

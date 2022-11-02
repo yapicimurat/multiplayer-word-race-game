@@ -13,6 +13,7 @@ ul.roomList li{
     font-size: 16px;
     font-weight: 600;
     text-align: left;
+    background-color: #E0FFD7;
 }
 ul.roomList li span{
     font-weight: 500;
@@ -30,11 +31,16 @@ ul.roomList li .joinRoom{
 }
 
 ul.roomList li:hover{
-    background-color: #efefef;
+    background-color: #BFFCAD;
 }
 
 ul.roomList li:hover .joinRoom{
     visibility: visible;
+}
+
+
+ul.roomList li.full{
+    background-color: #FACCCC;
 }
 
 p{

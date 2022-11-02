@@ -1,14 +1,14 @@
 import express from "express";
 import http from "http";
-import {GAME_MODE, PORT, EMIT_EVENTS, ON_EVENTS} from "./constants.js";
+import {GAME_MODE, PORT, EMIT_EVENTS, ON_EVENTS, EVENT_EMITTERS} from "./constants.js";
 import {Server} from "socket.io";
 import fs from "fs";
-//UTIL FUNCTION
 import {arrayIsEmpty} from "./util.js";
 import Word from "./word.js";
 import Player from "./player.js";
 import Room from "./room.js";
 import Game from "./game.js";
+import events from "events";
 
 const app = express();
 const server = http.createServer(app);
@@ -18,11 +18,12 @@ const io = new Server(server ,{
     }
 });
 
+//create event emitter
+const eventEmitter = new events.EventEmitter();
 
-const gameList = [];
+
 const playerList = [];
 const roomList = [];
-const wordList = [];
 
 const classicWords = [];
 const languageWords = [];
@@ -207,14 +208,59 @@ io.on("connection", (socket) => {
         });
     });
 
+
     socket.on("disconnect", () => {
         console.log(`${socket.id} socket disconnected the server.`);
-
+        eventEmitter.emit(EVENT_EMITTERS.FIND_USER_AND_DESTROY_DEPENDENCIES, socket.id);
 
     });
+
+});
+
+eventEmitter.on(EVENT_EMITTERS.FIND_USER_AND_DESTROY_DEPENDENCIES, async (socketId) => {
+
+    /*
+    DEPENDENCIES OF A USER
+    - playerList
+    - roomList
+    * */
+
+    const userArray = await asyncGetPlayerBySocketId(socketId);
+
+    if(!arrayIsEmpty(userArray, 0)){
+        const user = userArray[0];
+
+        const indexInPlayerList = playerList.findIndex(player => player.socketId === socketId);
+        playerList.splice(indexInPlayerList, 1);
+        if(user.inGame === true){
+            const room = roomList.filter(room => {
+                return (room.users.filter(user => user.socketId === socketId).length > 0);
+            })[0];
+
+            if(room.users.length > 1){
+                const indexInRoomUsers = room.users.findIndex(player => player.socketId === socketId);
+                room.users.splice(indexInRoomUsers, 1);
+
+                if(user.isOwner === true){
+                    room.creatorPlayer = room.users[0];
+                }
+
+            }
+            else{
+                const roomIndexInRoomList = roomList.findIndex(room => room.name === room.name);
+                roomList.splice(roomIndexInRoomList, 1);
+            }
+
+            io.of("/").emit(EMIT_EVENTS.CLIENT_ROOM_INFORMATIONS, roomList);
+
+        }
+    }
+
 });
 
 
 server.listen(PORT, () => {
-    console.log(`Server is listenin on port ${PORT}`);
+    console.log(`Server is listening on port ${PORT}`);
 });
+
+

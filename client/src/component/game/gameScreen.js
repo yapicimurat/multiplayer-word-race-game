@@ -3,6 +3,8 @@
 
 export default function GameScreen(){
     return (
-        <p>Game screen...</p>
+        <div className="screen">
+            gameee
+        </div>
     );
 }
