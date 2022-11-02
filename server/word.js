@@ -5,7 +5,6 @@ export default class Word{
         this.key = key;
         this.value = value;
 
-        //DEFAULT
         this.mode = mode;
 
         this.x = -1;

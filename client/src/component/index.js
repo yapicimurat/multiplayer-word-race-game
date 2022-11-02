@@ -20,7 +20,7 @@ export default function Index(){
     const dispatch = useDispatch();
 
     useEffect(() => {
-        //connect socket server and save into global state
+        //connect socket server and pass into the global state
         const socket = io(SOCKET.URL);
 
         socket.on(SOCKET.ON_EVENTS.CONNECT, () => {
@@ -33,6 +33,7 @@ export default function Index(){
         });
 
         socket.on(SOCKET.ON_EVENTS.CLIENT_ROOM_INFORMATIONS, (roomList) => {
+            console.log(roomList);
             //set roomList global state
             dispatch(setRoomList({roomList}));
         });
@@ -47,18 +48,29 @@ export default function Index(){
 
         });
 
-
-        socket.on(SOCKET.ON_EVENTS.CREATE_ROOM, (result) => {
+        socket.on(SOCKET.ON_EVENTS.CREATE_ROOM, (data) => {
             /*
                 callback parameter result presents following
                 ---------------------------------------------------
                 isSuccessfully: isSuccessfully,
                 errorMessage: errorMessage
             */
-            if(!result.isSuccessfully) { alert(result.errorMessage); return; }
+            const {isSuccessfully, errorMessage, room} = data;
+            if(!isSuccessfully) {
+                alert(errorMessage); return;
+            }
 
-            dispatch(setIsInGame(true));
+            dispatch(setIsInGame({isInGame: true, room }));
 
+        });
+
+        socket.on(SOCKET.ON_EVENTS.JOIN_ROOM, (data) => {
+            const {isSuccessfully, errorMessage, room} = data;
+            if(isSuccessfully){
+                dispatch(setIsInGame({isInGame: true, room: room}));
+            }else{
+                alert(errorMessage);
+            }
         });
 
     }, []);

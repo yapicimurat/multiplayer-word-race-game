@@ -6,16 +6,21 @@ export default class Player{
         this.nickName = nickName;
         this.score = 0;
         this.rank = -1;
-        this.room = null;
+        //it's cause circular in Room class, for now deprecated
+        //this.room = null;
+
         this.isOwner = false;
+        this.inGame = false;
+        this.isReady = false;
 
     }
 
-    clearInformation(){
+    clean(){
         this.score = 0;
         this.rank = -1;
-        this.room = null;
         this.isOwner = false;
+        this.inGame = false;
+        this.isReady = false;
     }
 
 }

@@ -3,9 +3,8 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
     nickName: "",
     socket: null,
-    isInGame: false
-
-
+    isInGame: false,
+    room: null
     /*
     TODO:
     isInGame is true when;
@@ -26,8 +25,13 @@ export const playerSlice = createSlice({
             state.nickName = action.payload.nickName;
         },
         setIsInGame: (state, action) => {
-            state.isInGame = action.payload;
-        }
+            //action.payload has, "isInGame", "room"
+            state.isInGame = action.payload.isInGame;
+            state.room = action.payload.room;
+
+            console.log(action.payload);
+        },
+
     },
 });
 
