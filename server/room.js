@@ -9,6 +9,9 @@ export default class Room{
         this.users = [];
         this.createdAt = Date.now();
 
+        this.countdownToStartInSecond = 30
+
+
     }
 
 

@@ -15,7 +15,7 @@ import {setRoomList} from "../features/room/roomSlice.js";
 
 export default function Index(){
 
-    const {isInGame, socket} = useSelector(state => state.playerReducer);
+    const {isInGame, socket, room} = useSelector(state => state.playerReducer);
     const dispatch = useDispatch();
 
 
@@ -42,6 +42,7 @@ export default function Index(){
         socket.on(SOCKET.ON_EVENTS.CLIENT_ROOM_INFORMATIONS, (roomList) => {
             dispatch(setRoomList({roomList}));
             if(isInGame){
+
                 const room = roomList.filter(room => {
                     return (room.users.filter(user => user.socketId === socket.id).length > 0)
                 });
@@ -49,6 +50,15 @@ export default function Index(){
                     dispatch(setRoom(room[0]));
                 }
             }
+        });
+
+        socket.on(SOCKET.ON_EVENTS.SPECIAL_ROOM_INFORMATION, (receivedRoom) => {
+            //extra security...
+            if(room !== null){
+                if(receivedRoom.name === room?.name)
+                    dispatch(setRoom(receivedRoom));
+            }
+
         });
 
         socket.on(SOCKET.ON_EVENTS.CREATE_NICKNAME, (data) => {

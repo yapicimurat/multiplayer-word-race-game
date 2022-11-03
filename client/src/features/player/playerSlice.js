@@ -18,6 +18,7 @@ export const playerSlice = createSlice({
     initialState,
     reducers: {
         setSocket: (state, action) => {
+            console.log("set socket => " + action.payload.socket.connected);
             state.socket = action.payload.socket;
         },
         setNickName: (state, action) => {
@@ -30,8 +31,6 @@ export const playerSlice = createSlice({
 
         },
         setRoom: (state, action) => {
-            console.log(action.payload);
-            console.log("FROM STORE => " + action.payload?.creatorPlayer?.nickName);
             state.room = action.payload;
         }
 

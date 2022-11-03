@@ -236,12 +236,18 @@ eventEmitter.on(EVENT_EMITTERS.FIND_USER_AND_DESTROY_DEPENDENCIES, async (socket
                 return (room.users.filter(user => user.socketId === socketId).length > 0);
             })[0];
 
-            if(room.users.length > 1){
+            if(room?.users.length > 1){
                 const indexInRoomUsers = room.users.findIndex(player => player.socketId === socketId);
                 room.users.splice(indexInRoomUsers, 1);
-
                 if(user.isOwner === true){
                     room.creatorPlayer = room.users[0];
+                    room.users[0].isOwner = true;
+                }
+
+
+                if(room.users.length === 1){
+                    room.countdownToStartInSecond = 30;
+                    room.game.isStarted = false;
                 }
 
             }
@@ -256,6 +262,46 @@ eventEmitter.on(EVENT_EMITTERS.FIND_USER_AND_DESTROY_DEPENDENCIES, async (socket
     }
 
 });
+
+
+//GENERAL TIMER FOR ALL ROOM'S
+setInterval(() => {
+
+    roomList.forEach(room => {
+
+        if(room.game?.isStarted === false){
+
+            if(room.users.length > 1){
+                const notReadyPlayers = room.users
+                    .filter(player => !player.isReady);
+
+                if(notReadyPlayers.length > 0){
+                    if(room.countdownToStartInSecond - 1 > 0){
+                        room.countdownToStartInSecond = room.countdownToStartInSecond - 1;
+                    }
+                    else{
+                        room.game.isStarted = true;
+                        room.users = room.users.map(player => player.isReady = true);
+                    }
+
+                    io.to(room.name).emit(EMIT_EVENTS.SPECIAL_ROOM_INFORMATION, room);
+
+                }else{
+                    room.game.isStarted = true;
+                }
+            }
+
+        }else{
+            //FOR STARTED GAMES
+        }
+
+
+    });
+
+
+}, 1000);
+
+
 
 
 server.listen(PORT, () => {

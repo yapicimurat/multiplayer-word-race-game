@@ -1,0 +1,41 @@
+.screen{
+    position: relative;
+
+}
+
+.screen .readyButton{
+    width: 60px;
+    height: 40px;
+
+    position: absolute;
+    top: 50px;
+    left: calc(50% - 30px);
+
+
+    cursor: pointer;
+}
+
+.screen .word{
+    position: absolute;
+    color: #000;
+    font-size: 16px;
+
+    left: 50px;
+}
+
+#countDown{
+    background-color: #f6f5f5;
+    border-radius: 15px;
+
+    padding-top: 5px;
+    text-align: center;
+    display: inline-block;
+
+    width: 200px;
+    height: 25px;
+
+    position: absolute;
+    top: 20px;
+    left: calc(50% - 100px);
+
+}
