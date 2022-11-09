@@ -88,6 +88,8 @@ export default function Index(){
         });
 
         socket.on(SOCKET.ON_EVENTS.JOIN_ROOM, (data) => {
+            console.log(data);
+
             const {isSuccessfully, errorMessage, room} = data;
             if(isSuccessfully){
                 dispatch(setIsInGame({isInGame: true, room: room}));

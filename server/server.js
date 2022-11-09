@@ -181,13 +181,15 @@ io.on("connection", (socket) => {
 
         const room = await asyncGetRoomByName(roomName);
         const user = await asyncGetPlayerBySocketId(userSocketId);
+
         if(!arrayIsEmpty(room, 0) && !arrayIsEmpty(user, 0)){
             if(room[0].users.length + 1 <= room[0].capacity){
                 user[0].clean();
                 user[0].inGame = true;
                 socket.join(roomName);
                 room[0].users.push(user[0]);
-                socket.emit(EMIT_EVENTS.JOIN_ROOM, room[0]);
+
+                //socket.emit(EMIT_EVENTS.JOIN_ROOM, room[0]);
             }else{
                 isSuccessfully = false;
                 errorMessage = "Room is full.";
