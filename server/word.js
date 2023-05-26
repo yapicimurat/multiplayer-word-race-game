@@ -10,7 +10,7 @@ export default class Word{
         this.x = -1;
         this.y = -1;
         this.color = "#fff";
-        this.fontSize = "16px";
+        this.fontSize = "20px Arial";
         this.fontFamily = "Arial";
         this.visibility = true;
         this.rotationDegree = 0;

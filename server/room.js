@@ -1,4 +1,4 @@
-export default class Room{
+export default class Room {
 
     constructor( name, capacity ){
         this.name = name;
@@ -8,12 +8,7 @@ export default class Room{
         this.game = null;
         this.users = [];
         this.createdAt = Date.now();
-
         this.countdownToStartInSecond = 30
-
-
     }
-
-
 
 }

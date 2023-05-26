@@ -10,7 +10,6 @@ export default function CreateRoom(){
     const [name, setName] = useState("");
     const [capacity, setCapacity] = useState(2);
 
-
     const nameOnChange = (e) => {
         setName(e.target.value);
     };
@@ -41,14 +40,17 @@ export default function CreateRoom(){
 
     return (
         <>
-            <p>Fill out all informations to create a room!</p>
-            <form className="createRoom" onSubmit={submitFormEvent}>
-                <label htmlFor="roomName">Room Name</label>
-                <input type="text" id="roomName" onChange={nameOnChange} value={name} required/>
-                <label htmlFor="roomCapacity">Room Capacity</label>
-                <input type="number" min="2" max="10" id="roomCapacity" onChange={capacityOnChange} value={capacity}  required/>
-                <button type="submit">Create Room</button>
-            </form>
+            <p>Oda oluşturmak için tüm bilgileri doldur.</p>
+            <div className="container d-flex flex-row justify-content-center">
+                <form onSubmit={submitFormEvent}>
+                    <label htmlFor="roomName">Oda Adı</label>
+                    <input type="text" id="roomName" onChange={nameOnChange} value={name} required/>
+                    <label htmlFor="roomCapacity">Oda Kapasitesi</label>
+                    <input type="number" min="2" max="10" id="roomCapacity" onChange={capacityOnChange} value={capacity}  required/>
+                    <button className="btn btn-success" type="submit">Oda Oluştur</button>
+                </form>
+            </div>
+
         </>
     );
 }

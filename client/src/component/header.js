@@ -14,13 +14,13 @@ export default function Header(){
         <header>
             <h2>MULTIPLAYER WORD RACE GAME</h2>
             <small>Complete words faster than others and win the game!!!</small>
-            <small className="serverState">State: {connectedText} </small>
+            <small>Status: {connectedText} </small>
             {
                 (room !== null) ?
                     <>
-                        <small className="serverState">You are in</small>
-                        <small className="inGameInformation">{room.name}</small>
-                        <small>Creator: {room.creatorPlayer.nickName}</small>
+                        <span className="serverState">You are in</span>
+                        <p className="inGameInformation">{room.name}</p>
+                        <p>Creator: {room.creatorPlayer.nickName}</p>
                     </>
                 : null
             }

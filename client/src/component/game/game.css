@@ -4,8 +4,6 @@
 }
 
 .screen .readyButton{
-    width: 60px;
-    height: 40px;
 
     position: absolute;
     top: 85px;
@@ -14,6 +12,7 @@
 
     cursor: pointer;
 }
+
 
 .screen .word{
     position: absolute;
@@ -75,4 +74,9 @@ ul.participantList{
 
 ul.participantList li{
 
+}
+
+
+#gameArea {
+    background-color: #000;
 }

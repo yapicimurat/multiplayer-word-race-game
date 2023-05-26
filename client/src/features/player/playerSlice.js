@@ -4,7 +4,9 @@ const initialState = {
     nickName: "",
     socket: null,
     isInGame: false,
-    room: null
+    room: null,
+    loggedIn: false,
+    player: null,
     /*
     TODO:
     isInGame is true when;
@@ -31,10 +33,16 @@ export const playerSlice = createSlice({
         },
         setRoom: (state, action) => {
             state.room = action.payload;
+        },
+        setLoggedIn: (state, action) => {
+            //action.payload => true or false
+            state.loggedIn = action.payload;
+        },
+        setPlayer: (state, action) => {
+            state.player = action.payload;
         }
-
     },
 });
 
-export const {setSocket, setNickName, setIsInGame, setRoom} = playerSlice.actions;
+export const {setSocket, setNickName, setIsInGame, setRoom, setLoggedIn, setPlayer} = playerSlice.actions;
 export default playerSlice.reducer;

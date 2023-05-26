@@ -5,11 +5,12 @@ import {setCreateRoomForm} from "../features/general/generalSlice.js";
 
 export default function CreateNickName(){
 
+
     const dispatch = useDispatch();
 
     //get nickname
     const nickNameGlobal = useSelector(state => state.playerReducer.nickName);
-    const socket = useSelector(state => state.playerReducer.socket);
+    const {socket, player} = useSelector(state => state.playerReducer);
 
     const [nickName, setNickName] = useState("");
 
@@ -22,7 +23,10 @@ export default function CreateNickName(){
 
         if(nickName === "" && socket?.connected) return;
 
-        socket.emit(SOCKET.EMIT_EVENTS.CREATE_NICKNAME, nickName);
+        socket.emit(SOCKET.EMIT_EVENTS.CREATE_NICKNAME, {
+            nickName: nickName,
+            id: player.id
+        });
     }
 
     const createRoomFormOpenEvent = () => {
@@ -30,20 +34,26 @@ export default function CreateNickName(){
     };
 
     const createNickNameForm = (
-        <form className="createNickname" onSubmit={formSubmitEvent}>
-            <small>To able to create or join a room enter your nickname!</small>
-            <label htmlFor="nickName">Nickname</label>
-            <input type="text" id="nickName" onChange={changeNickNameEvent} value={nickName }/>
-            <button type="submit">Enter</button>
-        </form>
+        <>
+            <div className="container d-flex flex-row justify-content-center border-bottom border-1 text-center p-2">
+                <form className="mx-auto" onSubmit={formSubmitEvent}>
+                    <small>Herhangi bir odaya katılabilmek için isim oluşturmalısın.</small>
+                    <label className="form-label" htmlFor="nickName">Takma İsim</label>
+                    <input className="form-control" type="text" id="nickName" onChange={changeNickNameEvent} value={nickName }/>
+                    <button type="submit" className="btn btn-primary">Onayla</button>
+                </form>
+            </div>
+        </>
     );
 
 
     const createdNickNameScreen = (
         <>
-            <p>Hello, {nickNameGlobal} <span><button type="button" onClick={createRoomFormOpenEvent}>Create Room</button></span></p>
+            <p>Merhaba, {nickNameGlobal} <span><button className="btn btn-success" type="button" onClick={createRoomFormOpenEvent}>Oda Oluştur</button></span></p>
         </>
     );
+
+
 
     if(nickNameGlobal === ""){
         return createNickNameForm;
@@ -51,3 +61,4 @@ export default function CreateNickName(){
 
     return createdNickNameScreen;
 }
+

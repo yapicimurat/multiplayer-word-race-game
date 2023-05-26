@@ -98,3 +98,10 @@ form.createNickname button{
     color: #ff0000;
     text-transform: uppercase;
 }
+
+.menu {
+    display: flex;
+    flex-direction: row;
+    height: 60px;
+    width: 100%;
+}

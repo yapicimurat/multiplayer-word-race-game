@@ -25,6 +25,6 @@ export default function RoomItem({creatorNickName, name, capacity, usersCount, d
     };
 
     return (
-        <li className={clsx({"full" : (capacity === usersCount)})}>[Player]: <span>{creatorNickName}</span>, [Name]: <span>{name}</span>, [Capacity]: <span>{usersCount + "/" + capacity}</span>, [Time]: <span>{new Date(date).toLocaleTimeString()}</span> <span><button disabled={(capacity === usersCount)} onClick={joinRoomEvent} className="joinRoom">JOIN</button></span></li>
+        <li className={clsx({"full" : (capacity === usersCount)})}>[Player]: <span>{creatorNickName}</span>, [Name]: <span>{name}</span>, [Capacity]: <span>{usersCount + "/" + capacity}</span>, [Time]: <span>{new Date(date).toLocaleTimeString()}</span> <span><button disabled={(capacity === usersCount)} onClick={joinRoomEvent} className=" btn btn-warning">JOIN</button></span></li>
     );
 }

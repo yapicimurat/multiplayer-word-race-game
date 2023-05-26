@@ -18,7 +18,7 @@ export default function RoomList(){
 
     return (
         <ul className="roomList">
-            {(Array.isArray(roomList) && roomList.length > 0) ? roomListComponents : "No any room..."}
+            {(Array.isArray(roomList) && roomList.length > 0) ? roomListComponents : "Henüz kimse bir oda oluşturmamış..."}
         </ul>
     );
 }

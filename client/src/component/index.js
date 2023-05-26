@@ -12,10 +12,14 @@ import {useEffect} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {setNickName, setSocket, setIsInGame, setRoom} from "../features/player/playerSlice.js";
 import {setRoomList} from "../features/room/roomSlice.js";
+import {setCreateRoomForm} from "../features/general/generalSlice";
+import LoginScreen from "./loginScreen";
+import fetcher, {REQUEST_TYPE} from "../util/fetcher";
+import EndPoints from "../constant/endPoints";
 
 export default function Index(){
 
-    const {isInGame, socket, room} = useSelector(state => state.playerReducer);
+    const {isInGame, socket, room, loggedIn, player} = useSelector(state => state.playerReducer);
     const dispatch = useDispatch();
 
 
@@ -46,10 +50,20 @@ export default function Index(){
                 const room = roomList.filter(room => {
                     return (room.users.filter(user => user.socketId === socket.id).length > 0)
                 });
-                if(room.length > 0){
+                if(room.length > 0) {
                     dispatch(setRoom(room[0]));
                 }
             }
+        });
+
+        socket.on(SOCKET.ON_EVENTS.CLIENT_GAME_INFORMATIONS, (room) => {
+            //incoming server room's game information per second..
+
+            //update user joined or created room per second...
+            if(isInGame){
+                dispatch(setRoom(room));
+            }
+
         });
 
         socket.on(SOCKET.ON_EVENTS.SPECIAL_ROOM_INFORMATION, (receivedRoom) => {
@@ -88,8 +102,6 @@ export default function Index(){
         });
 
         socket.on(SOCKET.ON_EVENTS.JOIN_ROOM, (data) => {
-            console.log(data);
-
             const {isSuccessfully, errorMessage, room} = data;
             if(isSuccessfully){
                 dispatch(setIsInGame({isInGame: true, room: room}));
@@ -98,19 +110,39 @@ export default function Index(){
             }
         });
 
+        socket.on(SOCKET.ON_EVENTS.CLIENT_END_GAME, async (room) => {
+            alert(`!!! Game is end !!! The Winner is : ${room.users.sort((a, b) => b.score - a.score)[0].nickName}`);
+
+            //game is end
+            dispatch(setIsInGame({isInGame: false, room: null }));
+            dispatch(setCreateRoomForm(false));
+
+
+
+
+
+
+
+
+        })
+
     }, [isInGame]);
 
     const CONTENTS = {
         START_SCREEN: <StartScreen/>,
-        GAME_SCREEN: <GameScreen/>
+        GAME_SCREEN: <GameScreen/>,
+        LOGIN_SCREEN: <LoginScreen/>
     };
 
 
     const getContent = () => {
-        //TODO: Here may different contents in future
-        //for now only startScreen and gameScreen
-        if(!isInGame) return CONTENTS.START_SCREEN;
-        else return CONTENTS.GAME_SCREEN;
+        const accessToken = localStorage.getItem("access_token");
+
+        if(loggedIn && !isInGame) return CONTENTS.START_SCREEN;
+        else if(loggedIn && isInGame) return CONTENTS.GAME_SCREEN;
+        else if(!loggedIn || accessToken === "" || accessToken === null || accessToken === undefined) {
+            return CONTENTS.LOGIN_SCREEN;
+        }
     }
 
     return (
