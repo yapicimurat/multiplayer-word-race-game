@@ -16,10 +16,12 @@ import {setCreateRoomForm} from "../features/general/generalSlice";
 import LoginScreen from "./loginScreen";
 import fetcher, {REQUEST_TYPE} from "../util/fetcher";
 import EndPoints from "../constant/endPoints";
+import Register from "./register";
 
 export default function Index(){
 
     const {isInGame, socket, room, loggedIn, player} = useSelector(state => state.playerReducer);
+    const {registerPage} = useSelector(state => state.generalReducer);
     const dispatch = useDispatch();
 
 
@@ -119,11 +121,6 @@ export default function Index(){
 
 
 
-
-
-
-
-
         })
 
     }, [isInGame]);
@@ -131,17 +128,22 @@ export default function Index(){
     const CONTENTS = {
         START_SCREEN: <StartScreen/>,
         GAME_SCREEN: <GameScreen/>,
-        LOGIN_SCREEN: <LoginScreen/>
+        LOGIN_SCREEN: <LoginScreen/>,
+        REGISTER_SCREEN: <Register/>
     };
 
 
     const getContent = () => {
+        console.log(registerPage);
         const accessToken = localStorage.getItem("access_token");
 
         if(loggedIn && !isInGame) return CONTENTS.START_SCREEN;
         else if(loggedIn && isInGame) return CONTENTS.GAME_SCREEN;
-        else if(!loggedIn || accessToken === "" || accessToken === null || accessToken === undefined) {
+        else if(!loggedIn && (accessToken === "" || accessToken === null || accessToken === undefined) && !registerPage) {
             return CONTENTS.LOGIN_SCREEN;
+        }
+        else if(!loggedIn && registerPage) {
+            return CONTENTS.REGISTER_SCREEN;
         }
     }
 

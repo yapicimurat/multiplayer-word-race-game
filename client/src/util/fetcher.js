@@ -26,7 +26,6 @@ export default async (url, type, body) => {
             result.successMessage = (data.isSuccess) ? data.message : "";
         } else if(type === REQUEST_TYPE.POST) {
             const {data, status} = await axiosInstance.post(url, body);
-
             result.data = (data?.data) ? data.data : data;
             result.status = status;
             result.error = false;

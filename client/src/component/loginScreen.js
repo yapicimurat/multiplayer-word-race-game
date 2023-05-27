@@ -4,7 +4,8 @@ import {setLoggedIn, setPlayer} from "../features/player/playerSlice";
 import {useDispatch, useSelector} from "react-redux";
 import fetcher, {REQUEST_TYPE} from "../util/fetcher";
 import EndPoints from "../constant/endPoints";
-import {SOCKET} from "../config";
+import {setRegister} from "../features/general/generalSlice";
+
 
 export default function LoginScreen() {
 
@@ -45,15 +46,17 @@ export default function LoginScreen() {
     }
 
 
-
     return (
         <form className="createRoom" onSubmit={login}>
             <label htmlFor="username">Kullanıcı adı</label>
             <input type="text" id="username" name="username" value={loginInformation.username} onChange={valueChangeEvent}/>
             <label htmlFor="password">Parola</label>
             <input type="password" id="password" name="password" value={loginInformation.password} onChange={valueChangeEvent}/>
-            <p>Henüz hesabın yok mu? <a href="#">Kayıt ol!</a></p>
-            <button type="submit">Giriş Yap</button>
+            <span>Henüz hesabın yok mu?</span>
+            <span onClick={() => {
+                dispatch(setRegister(true))
+        }} className="link-primary text-decoration-underline" style={{cursor: "pointer"}}>&nbsp;Kayıt ol!</span>
+            <button className="btn btn-success" type="submit">Giriş Yap</button>
         </form>
     );
 

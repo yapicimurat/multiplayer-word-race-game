@@ -19,8 +19,12 @@ axiosInstance.interceptors.response.use(response =>  {
 
 axiosInstance.interceptors.request.use(request => {
     if(request.headers["Authorization"] === "Bearer null") {
-        request.headers["Authorization"] = "Bearer " + localStorage.getItem("access_token");
-        console.log("girdi");
+        if(localStorage.getItem("access_token")) {
+            console.log("girdi....");
+            request.headers["Authorization"] = "Bearer " + localStorage.getItem("access_token");
+        }else {
+            delete request.headers["Authorization"];
+        }
     }
     return request;
 }, error => {

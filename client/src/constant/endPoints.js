@@ -15,4 +15,5 @@ export default {
     CREATE_ROOM: BASE_URL + `room`,
     CREATE_GAME: BASE_URL + `game`,
     CREATE_USER_SCORE: BASE_URL + `userscore`,
+    REGISTER: BASE_URL + "user",
 }

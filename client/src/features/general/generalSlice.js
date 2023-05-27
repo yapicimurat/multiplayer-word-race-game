@@ -1,7 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-    isCreateRoomFormOpen: false
+    isCreateRoomFormOpen: false,
+    registerPage: false,
 
 };
 
@@ -11,10 +12,13 @@ export const generalSlice = createSlice({
     reducers: {
         setCreateRoomForm: (state, action) => {
             state.isCreateRoomFormOpen = action.payload;
+        },
+        setRegister: (state, action) => {
+            state.registerPage = action.payload;
         }
     },
 });
 
 
-export const {setCreateRoomForm} = generalSlice.actions;
+export const {setCreateRoomForm, setRegister} = generalSlice.actions;
 export default generalSlice.reducer;
