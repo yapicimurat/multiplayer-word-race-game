@@ -38,7 +38,7 @@ export default async (url, type, body) => {
         result.error = true;
         result.errorMessage = error.message;
         result.data = {};
-        result.status = error.response.status;
+        result.status = error?.response?.status;
         result.successMessage = "";
     }
 

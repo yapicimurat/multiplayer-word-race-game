@@ -1,20 +1,16 @@
 import {useSelector} from "react-redux";
-import {useEffect} from "react";
 
 
-export default function Header(){
+export default function Header() {
 
     const {nickName, socket, isInGame, room} = useSelector(state => state.playerReducer);
-
-
-    const connectedText = (!socket?.connected) ? "Pending..." : "Connected";
-
+    const connectedText = (!socket?.connected) ? "Bekleniyor..." : "Bağlanıldı...";
 
     return (
         <header>
-            <h2>MULTIPLAYER WORD RACE GAME</h2>
-            <small>Complete words faster than others and win the game!!!</small>
-            <small>Status: {connectedText} </small>
+            <h2>Çok Oyunculu Kelime Yazma Yarış Oyunu</h2>
+            <small>Tüm kelimeleri yaz ve diğer kullancıların önüne geç!!!</small>
+            <small>Statü: {connectedText} </small>
             {
                 (room !== null) ?
                     <>

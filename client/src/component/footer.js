@@ -60,9 +60,7 @@ export default function Footer() {
             </footer>
         );
     } else {
-        return (
-            <p>The game is not started yet...</p>
-        );
+        return null;
     }
 
 

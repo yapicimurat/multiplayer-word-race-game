@@ -7,12 +7,6 @@ const initialState = {
     room: null,
     loggedIn: false,
     player: null,
-    /*
-    TODO:
-    isInGame is true when;
-        - Player create a room
-        - Player join a room
-    */
 };
 
 export const playerSlice = createSlice({

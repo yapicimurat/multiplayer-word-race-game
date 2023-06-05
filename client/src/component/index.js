@@ -134,7 +134,6 @@ export default function Index(){
 
 
     const getContent = () => {
-        console.log(registerPage);
         const accessToken = localStorage.getItem("access_token");
 
         if(loggedIn && !isInGame) return CONTENTS.START_SCREEN;

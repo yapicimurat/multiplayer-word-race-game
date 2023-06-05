@@ -1,0 +1,24 @@
+version: "3"
+services:
+  word-race-client:
+    image: word-race-client
+    ports:
+      - "80:3000"
+    depends_on:
+      - word-race-server
+      - word-race-backend
+  word-race-server:
+    image: word-race-server
+    ports:
+      - "3000:3000"
+  postgres:
+    image: postgres:14.1-alpine
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    ports:
+      - '5432:5432'
+  word-race-backend:
+    image: word-race-backend
+    ports:
+      - "8080:8080"

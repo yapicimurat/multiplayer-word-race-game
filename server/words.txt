@@ -17,7 +17,7 @@ mode>key>value
 1>->yakalamak
 1>->varmak
 1>->istikrar
-1>->sebeb
+1>->sebep
 1>->kin
 1>->getirmek
 1>->dönmek
@@ -27,3 +27,4 @@ mode>key>value
 1>->bulmak
 1>->büyük
 1>->bilmek
+
